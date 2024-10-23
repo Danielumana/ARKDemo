@@ -19,10 +19,7 @@ public class BallMovement : MonoBehaviour
 
     void Update()
     {
-        if (ballRigidbody == null)
-        {
-            return;
-        }
+        
     }
 
     private void OnCollisionEnter(Collision otherCollision) 
