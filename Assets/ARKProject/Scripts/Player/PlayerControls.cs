@@ -11,6 +11,10 @@ public class PlayerMovement : MonoBehaviour
     public GameObject ballReference;
     private Rigidbody ballRigidbody;
 
+    //Movement Values
+    public float movementSpeedMultiplier = 10.0f;
+    public float intialImpulsoSpeedMultiplier = 10.0f;
+
     void Start()
     {
         TryPlayerInputSetup();
@@ -45,11 +49,11 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
         Vector2 direction = moveAction.ReadValue<Vector2>();
-        transform.position += new Vector3(direction.x, 0, direction.y) * Time.deltaTime;
+        transform.position += new Vector3(direction.x, 0, direction.y) * Time.deltaTime * movementSpeedMultiplier;
     }
 
     public void InitialImpulse(InputAction.CallbackContext callbackContext)
     {
-        ballRigidbody.linearVelocity = new Vector3(Random.Range(-1.0f,1.0f), 1, 0).normalized * 5.0f;
+        ballRigidbody.linearVelocity = new Vector3(Random.Range(-1.0f,1.0f), 1, 0).normalized * intialImpulsoSpeedMultiplier;
     }
 }
