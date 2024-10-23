@@ -23,7 +23,6 @@ public class BallMovement : MonoBehaviour
         {
             return;
         }
-        Debug.Log("Actual Velocity: "+ballRigidbody.linearVelocity);
     }
 
     private void OnCollisionEnter(Collision otherCollision) 
