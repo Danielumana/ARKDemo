@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
 
     //Movement Values
     public float movementSpeedMultiplier = 10.0f;
-    public float intialImpulsoSpeedMultiplier = 10.0f;
+    public float intialImpulseSpeedMultiplier = 10.0f;
 
     void Start()
     {
@@ -54,6 +54,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void InitialImpulse(InputAction.CallbackContext callbackContext)
     {
-        ballRigidbody.linearVelocity = new Vector3(Random.Range(-1.0f,1.0f), 1, 0).normalized * intialImpulsoSpeedMultiplier;
+        ballRigidbody.linearVelocity = new Vector3(Random.Range(-1.0f,1.0f), 1, 0).normalized * intialImpulseSpeedMultiplier;
     }
 }
