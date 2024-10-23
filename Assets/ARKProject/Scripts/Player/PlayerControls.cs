@@ -2,15 +2,19 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
-    
-    PlayerInput playerInput;
-    InputAction moveAction;
+    //Player Controller Components
+    private PlayerInput playerInput;
+    private InputAction moveAction;
+
+
+    //Ball References(Change placeholder)
+    public GameObject ballReference;
+    private Rigidbody ballRigidbody;
 
     void Start()
     {
-        
-        bool inputSetupSuccess = TryPlayerInputSetup();
-
+        TryPlayerInputSetup();
+        ballRigidbody = ballReference.GetComponent<Rigidbody>();
     }
 
     
@@ -26,7 +30,6 @@ public class PlayerMovement : MonoBehaviour
         {
             return false;
         }
-
         moveAction = playerInput.actions.FindAction("MoveAction");
         if (moveAction == null)
         {
@@ -45,4 +48,8 @@ public class PlayerMovement : MonoBehaviour
         transform.position += new Vector3(direction.x, 0, direction.y) * Time.deltaTime;
     }
 
+    public void InitialImpulse(InputAction.CallbackContext callbackContext)
+    {
+        ballRigidbody.linearVelocity = new Vector3(Random.Range(-1.0f,1.0f), 1, 0).normalized * 5.0f;
+    }
 }
