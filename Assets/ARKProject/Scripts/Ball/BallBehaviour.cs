@@ -6,13 +6,13 @@ public class BallMovement : MonoBehaviour
 
     private GameObject ballReference;
     private Rigidbody ballRigidbody;
+    private Vector3 lastValidBounceDirection;
+    private float rotationModificationAngle = 30.0f;
+    private float minReflectionValueXY = 0.2f;
+
+    private float bounceDotPLimit = 0.85f;
 
     public float desiredConstantSpeed = 2.0f;
-
-    private float lastCollisionTime = 0.0f;
-    private float minimumTime = 0.6f;
-
-    private Vector3 lastValidBounceDirection;
 
     void Start()
     {
@@ -32,10 +32,10 @@ public class BallMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision otherCollision) 
     {
-        // if (ballRigidbody == null)
-        // {
-        //     return;
-        // }
+        if (ballRigidbody == null)
+        {
+            return;
+        }
 
         Vector3 currentBallNormalizedVelocity = ballRigidbody.linearVelocity.normalized;
         Vector3 collisionContactPointNormal = otherCollision.GetContact(0).normal;
@@ -46,21 +46,21 @@ public class BallMovement : MonoBehaviour
 
         float  bounceDotP = Vector3.Dot(collisionContactPointNormal, reflectedBounceDirection);
 
-        if (bounceDotP <= -0.9f || bounceDotP >= 0.9f )
+        if (bounceDotP <= -bounceDotPLimit || bounceDotP >= bounceDotPLimit )
         {
             float rotationSign = 1;
-            if (lastBounceDotP > -0.8f || lastBounceDotP < 0.8f )
+            if (lastBounceDotP > -bounceDotPLimit || lastBounceDotP < bounceDotPLimit )
             {
-                if (Mathf.Abs(reflectedBounceDirection.x) <= 0.2f)
+                if (Mathf.Abs(reflectedBounceDirection.x) <= minReflectionValueXY)
                 {
                     rotationSign = Mathf.Sign(lastValidBounceDirection.x);
                 }
-                else if (Mathf.Abs(reflectedBounceDirection.y) < 0.2f)
+                else if (Mathf.Abs(reflectedBounceDirection.y) <= minReflectionValueXY)
                 {
                     rotationSign = Mathf.Sign(lastValidBounceDirection.y);
                 }
             }
-            Quaternion rotationModification = Quaternion.AngleAxis(30.0f * rotationSign, Vector3.forward);
+            Quaternion rotationModification = Quaternion.AngleAxis(rotationModificationAngle * rotationSign, Vector3.forward);
             lastValidBounceDirection = rotationModification * reflectedBounceDirection;
         }
         else
@@ -68,7 +68,6 @@ public class BallMovement : MonoBehaviour
             lastValidBounceDirection = reflectedBounceDirection;
         }
         
-        lastCollisionTime = Time.time;
         ballRigidbody.linearVelocity = lastValidBounceDirection.normalized * desiredConstantSpeed;
     }
 
