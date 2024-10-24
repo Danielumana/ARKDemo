@@ -6,14 +6,14 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInput playerInput;
     private InputAction moveAction;
 
-
+bool done = false;
     //Ball References(Change placeholder)
     public GameObject ballReference;
     private Rigidbody ballRigidbody;
 
     //Movement Values
     public float movementSpeedMultiplier = 10.0f;
-    public float intialImpulseSpeedMultiplier = 10.0f;
+    public float intialImpulseSpeedMultiplier = 5.0f;
 
     void Start()
     {
@@ -54,6 +54,12 @@ public class PlayerMovement : MonoBehaviour
 
     public void InitialImpulse(InputAction.CallbackContext callbackContext)
     {
-        ballRigidbody.linearVelocity = new Vector3(Random.Range(-1.0f,1.0f), 1, 0).normalized * intialImpulseSpeedMultiplier;
+        if (done == true)
+        {
+            return;
+        }
+        done = true;
+        float random = Random.Range(0.4f,0.8f);
+        ballRigidbody.linearVelocity = new Vector3(random, 1, 0).normalized * intialImpulseSpeedMultiplier;
     }
 }
