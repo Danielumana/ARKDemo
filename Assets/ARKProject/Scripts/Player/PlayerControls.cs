@@ -2,14 +2,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
+
     //Player Controller Components
     private PlayerInput playerInput;
     private InputAction moveAction;
 
-bool done = false;
+    bool bIntialImpulseActionDone = false;
     //Ball References(Change placeholder)
     public GameObject ballReference;
-    private Rigidbody ballRigidbody;
+
 
     //Movement Values
     public float movementSpeedMultiplier = 10.0f;
@@ -18,7 +19,6 @@ bool done = false;
     void Start()
     {
         TryPlayerInputSetup();
-        ballRigidbody = ballReference.GetComponent<Rigidbody>();
     }
 
     
@@ -54,12 +54,23 @@ bool done = false;
 
     public void InitialImpulse(InputAction.CallbackContext callbackContext)
     {
-        if (done == true)
+        if (bIntialImpulseActionDone == true)
         {
             return;
         }
-        done = true;
-        float random = Random.Range(0.4f,0.8f);
-        //ballRigidbody.linearVelocity = new Vector3(random, 1, 0).normalized * intialImpulseSpeedMultiplier;
+        bIntialImpulseActionDone = true;
+        if (ballReference == null)
+        {
+            return;
+        }
+        BallMovement ballMovementClass = ballReference.GetComponent<BallMovement>();
+        if (ballMovementClass == null)
+        {
+            return;
+        }
+        float randomImpulseX = Random.Range(0.4f,0.8f);
+        Vector3 intialImpulseDirection = new Vector3(randomImpulseX, 1, 0).normalized;
+        ballMovementClass.OnInitialImpulseAction(intialImpulseDirection);
+        // initialImpulseActionDelegate(new Vector3(randomImpulseX, 1, 0).normalized * intialImpulseSpeedMultiplier);
     }
 }

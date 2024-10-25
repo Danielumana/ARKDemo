@@ -2,45 +2,39 @@ using UnityEngine;
 
 public class BallMovement : MonoBehaviour
 {
-
-    private GameObject ballReference;
-    private Rigidbody ballRigidbody;
-    private Vector3 lastValidBounceDirection;
-    private float rotationModificationAngle = 30.0f;
-    private float minReflectionValueXY = 0.2f;
-
-    private float bounceDotPLimit = 0.85f;
-
+    private Vector3 currentMovementDirection;
     public float desiredConstantSpeed = 10.0f;
 
-
-    float lastCollisionTime;
-    float minCollisionTime = 0.2f;
+    private bool bIntialImpulseDone = false;
 
     void Start()
     {
-        lastValidBounceDirection = new Vector3(0.5f,1.0f,0.0f);
-        lastCollisionTime = Time.time;
-        ballReference = this.gameObject;
-        if (ballReference == null)
-        {
-            return;
-        }
-        ballRigidbody = ballReference.GetComponent<Rigidbody>();
+        
     }
 
     void Update()
     {
-        transform.position += lastValidBounceDirection * desiredConstantSpeed * Time.deltaTime;
-        //Debug.Log("direction: "+lastValidBounceDirection);
+        if (bIntialImpulseDone == false)
+        {
+            return;
+        }
+        transform.position += currentMovementDirection * desiredConstantSpeed * Time.deltaTime;
+    }
+
+    public void OnInitialImpulseAction(Vector3 initialImpulseDirection)
+    {
+        if (bIntialImpulseDone == true)
+        {
+            return;
+        }
+        bIntialImpulseDone = true;
+        currentMovementDirection = initialImpulseDirection; 
     }
 
     private void OnCollisionEnter(Collision other) 
     {
-  
-        //Vector3 currentBallNormalizedVelocity = ballRigidbody.linearVelocity.normalized;
         Vector3 collisionContactPointNormal = other.GetContact(0).normal;
-        Vector3 reflectedBounceDirection = Vector3.Reflect(lastValidBounceDirection.normalized, collisionContactPointNormal);
+        Vector3 reflectedBounceDirection = Vector3.Reflect(currentMovementDirection.normalized, collisionContactPointNormal);
 
         if (Mathf.Abs(reflectedBounceDirection.x) < 0.1f)
         {
@@ -50,10 +44,7 @@ public class BallMovement : MonoBehaviour
         {
             reflectedBounceDirection.y = Mathf.Sign(reflectedBounceDirection.y) * 0.3f;
         }
-
-        lastValidBounceDirection = reflectedBounceDirection.normalized;
-        //Debug.Log("colisión");
-
+        currentMovementDirection = reflectedBounceDirection.normalized;
     }
 
     // private void OnCollisionEnter(Collision otherCollision) 
@@ -125,11 +116,5 @@ public class BallMovement : MonoBehaviour
     //     // Debug.Log("Final reflection vector"+lastValidBounceDirection.normalized);
     //     // ballRigidbody.linearVelocity = lastValidBounceDirection.normalized * desiredConstantSpeed;
     // }
-
-
-    void SetCollisionEnable(Collider collider, bool bEnable)
-    {
-        Physics.IgnoreCollision(ballReference.GetComponent<Collider>(), collider, bEnable);
-    }
 
 }

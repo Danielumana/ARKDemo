@@ -2,13 +2,18 @@ using UnityEngine;
 
 public class ARKGameMode : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public GameObject paddleReference;
+    public GameObject ballReference;
+    public int playerLives = 3;
+    private int playerScore = 0;
+
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         
