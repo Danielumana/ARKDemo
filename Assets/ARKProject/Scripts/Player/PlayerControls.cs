@@ -60,6 +60,6 @@ bool done = false;
         }
         done = true;
         float random = Random.Range(0.4f,0.8f);
-        ballRigidbody.linearVelocity = new Vector3(random, 1, 0).normalized * intialImpulseSpeedMultiplier;
+        //ballRigidbody.linearVelocity = new Vector3(random, 1, 0).normalized * intialImpulseSpeedMultiplier;
     }
 }
