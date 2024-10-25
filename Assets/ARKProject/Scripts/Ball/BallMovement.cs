@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class BallMovement : MonoBehaviour
 {
+    GameObject paddleReference;
     private Vector3 currentMovementDirection;
     public float desiredConstantSpeed = 10.0f;
 
@@ -9,7 +10,7 @@ public class BallMovement : MonoBehaviour
 
     void Start()
     {
-        
+        paddleReference = GameObject.Find("Paddle");
     }
 
     void Update()
