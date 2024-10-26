@@ -494,7 +494,7 @@ Transform:
   m_GameObject: {fileID: 173636104}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.7071064, w: 0.7071072}
-  m_LocalPosition: {x: 1.67, y: 13.25, z: -6.53}
+  m_LocalPosition: {x: 1.7, y: 13.74, z: -6.53}
   m_LocalScale: {x: 1, y: 10.888442, z: 1.650625}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -826,7 +826,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.7, z: -27.4}
+  m_LocalPosition: {x: 1.66, y: 5.27, z: -25.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1503,7 +1503,6 @@ MonoBehaviour:
   ballsPoolReference: {fileID: 183797767}
   deathVolume: {fileID: 1225100011}
   ballsInPoolPosition: {x: 0, y: 1000, z: 0}
-  playerLives: 3
 --- !u!1001 &784560842
 PrefabInstance:
   m_ObjectHideFlags: 0

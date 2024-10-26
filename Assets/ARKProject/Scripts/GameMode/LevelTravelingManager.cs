@@ -3,6 +3,23 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class LevelTravelingManager : MonoBehaviour
 {
+    public float waitingSecondsToTravel;
+
+    public static LevelTravelingManager Instance { get; private set; }
+    
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+    
     void OnEnable() 
     {
         ARKGameMode.GameStateChanged += OnGameStateChanged; 
@@ -30,7 +47,7 @@ public class LevelTravelingManager : MonoBehaviour
 
     private IEnumerator WaitAndLoadNextScene()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(waitingSecondsToTravel);
         SceneManager.LoadScene("Level_2");
     }
 
