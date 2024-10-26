@@ -1008,6 +1008,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paddleReference: {fileID: 1262496283}
+  levelBlocksContainer: {fileID: 1996902169}
   ballPrefab: {fileID: 479935178804925629, guid: a85347ec165cc8542bc3433954aa2279, type: 3}
   ballsPoolReference: {fileID: 183797767}
   deathVolume: {fileID: 1225100011}
@@ -1460,7 +1461,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e4db965432a9b140af36871c4376a1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballReference: {fileID: 2010441511}
   movementSpeedMultiplier: 10
   intialImpulseSpeedMultiplier: 10
 --- !u!114 &1262496290
@@ -1919,11 +1919,6 @@ Transform:
   - {fileID: 1352877024}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2010441511 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 479935178804925629, guid: a85347ec165cc8542bc3433954aa2279, type: 3}
-  m_PrefabInstance: {fileID: 5242348744391795107}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2085215526
 PrefabInstance:
   m_ObjectHideFlags: 0

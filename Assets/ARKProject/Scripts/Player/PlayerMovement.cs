@@ -75,8 +75,8 @@ public class PlayerMovement : MonoBehaviour
     }
     public void SetAllControlsEnableValue(bool newState)
     {
-        Dictionary<string, bool> availableControlsStateAux = new Dictionary<string, bool>(availableControlsState);
-        foreach (string controlKey in availableControlsStateAux.Keys)
+        Dictionary<string, bool> availableControlsStateCopy = new Dictionary<string, bool>(availableControlsState);
+        foreach (string controlKey in availableControlsStateCopy.Keys)
         {
             availableControlsState[controlKey] = newState;
         }
@@ -146,11 +146,17 @@ public class PlayerMovement : MonoBehaviour
         {
             case ARKGameMode.GameState.InitialBall:
                 bIntialImpulseActionDone = false;
-                SetControlEnableValue("InitialImpulse", true);
+                SetAllControlsEnableValue(true);
                 break;
 
             case ARKGameMode.GameState.Playing:
                 SetControlEnableValue("InitialImpulse", false);
+                break;
+            case ARKGameMode.GameState.GameWin:
+                SetAllControlsEnableValue(false);
+                break;
+            case ARKGameMode.GameState.GameLost:
+                SetAllControlsEnableValue(false);
                 break;
         }
     }

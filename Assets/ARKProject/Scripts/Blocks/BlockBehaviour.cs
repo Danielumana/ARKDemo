@@ -2,14 +2,18 @@ using UnityEngine;
 
 public class BlockBehaviour : MonoBehaviour
 {
+
+    public delegate void OnBlockDestruction(int onBlockDestructionPoins);
+    public static event OnBlockDestruction OnBlockDestructionEvent;
+
     private GameObject blockReference;
     public int blockHits = 1;
-    private int onDestructionScore;
+    private int onDestructionPoints;
 
     void Start()
     {
         blockReference = this.gameObject;
-        onDestructionScore = (int)Mathf.Pow(blockHits,2);
+        onDestructionPoints = (int)Mathf.Pow(blockHits,2);
     }
 
     
@@ -45,8 +49,7 @@ public class BlockBehaviour : MonoBehaviour
         {
             return;
         }
-        ARKGameMode.Instance.AddPointsToScore(onDestructionScore);
-        
+        OnBlockDestructionEvent(onDestructionPoints);
     }
 
 }

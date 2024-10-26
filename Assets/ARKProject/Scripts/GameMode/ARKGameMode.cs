@@ -22,12 +22,14 @@ public class ARKGameMode : MonoBehaviour
 
     private GameState currentGameState;
     public GameObject paddleReference;
+    public GameObject levelBlocksContainer;
     public GameObject ballPrefab;
     public GameObject ballsPoolReference;
     private List<GameObject> activeBalls = new List<GameObject> {};
     private GameObject mainBallReference;
     public GameObject deathVolume;
     public Vector3 ballsInPoolPosition = new Vector3(0,1000,0);
+    private int levelBlocksCount;
     public int playerLives = 3;
     private int playerScore = 0;
 
@@ -36,10 +38,12 @@ public class ARKGameMode : MonoBehaviour
     void OnEnable() 
     {
         PlayerMovement.InitialImpulseAction += OnInitialImpulseAction;
+        BlockBehaviour.OnBlockDestructionEvent += OnBlockDestruction;
     }
     void OnDisable() 
     {
         PlayerMovement.InitialImpulseAction -= OnInitialImpulseAction;
+        BlockBehaviour.OnBlockDestructionEvent -= OnBlockDestruction;
     }
     private void Awake()
     {
@@ -57,6 +61,11 @@ public class ARKGameMode : MonoBehaviour
     void Start()
     {
       ResetToInitialBall();
+      if (levelBlocksContainer == null)
+      {
+        return;
+      }
+      levelBlocksCount = levelBlocksContainer.transform.childCount; 
     }
 
     
@@ -135,7 +144,8 @@ public class ARKGameMode : MonoBehaviour
 
     public void DespawnAllActiveBalls()
     {
-        foreach (GameObject activeBall in activeBalls)
+        List<GameObject> activeBallsCopy = new List<GameObject>(activeBalls);
+        foreach (GameObject activeBall in activeBallsCopy)
         {
             if (activeBall == null)
             {
@@ -242,6 +252,7 @@ public class ARKGameMode : MonoBehaviour
     private void OnGameOver(GameState gameOverState )
     {
         SetCurrentGameState(gameOverState);
+        DespawnAllActiveBalls();
         print("GameOver ="+currentGameState);
     }
 
@@ -268,6 +279,16 @@ public class ARKGameMode : MonoBehaviour
             return;
         }
         SetCurrentGameState(GameState.Playing);
+    }
+
+    private void OnBlockDestruction(int destructionPoints)
+    {
+        AddPointsToScore(destructionPoints);
+        levelBlocksCount -= 1;
+        if (levelBlocksCount <= 0)
+        {
+            OnGameOver(GameState.GameWin);
+        }
     }
 
 }
