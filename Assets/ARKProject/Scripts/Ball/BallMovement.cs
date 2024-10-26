@@ -8,6 +8,19 @@ public class BallMovement : MonoBehaviour
 
     private bool bIntialImpulseDone = false;
 
+    void OnEnable() 
+    {
+        ARKGameMode gameModeReference = ARKGameMode.Instance;
+        if ( gameModeReference == null)
+        {
+            return;
+        }
+        ARKGameMode.GameStateChanged += OnGameStateChanged; 
+    }
+    void OnDisable() 
+    {
+        ARKGameMode.GameStateChanged -= OnGameStateChanged;
+    }
     void Start()
     {
         paddleReference = GameObject.Find("Paddle");
@@ -48,74 +61,15 @@ public class BallMovement : MonoBehaviour
         currentMovementDirection = reflectedBounceDirection.normalized;
     }
 
-    // private void OnCollisionEnter(Collision otherCollision) 
-    // {
-    //     if (ballRigidbody == null)
-    //     {
-    //         return;
-    //     }
-
-    //     if (Time.time - lastCollisionTime < minCollisionTime)
-    //     {
-    //         Debug.Log("Rapidooooo");
-    //         return;
-    //     }
-    //     lastCollisionTime = Time.time;
-
-    //     Vector3 currentBallNormalizedVelocity = ballRigidbody.linearVelocity.normalized;
-    //     Vector3 collisionContactPointNormal = otherCollision.GetContact(0).normal;
-    //     Vector3 reflectedBounceDirection = Vector3.Reflect(currentBallNormalizedVelocity, collisionContactPointNormal);
-
-        
-        
-
-    //     float  lastBounceDotP = Vector3.Dot(collisionContactPointNormal, lastValidBounceDirection);
-
-    //     float  bounceDotP = Vector3.Dot(collisionContactPointNormal, reflectedBounceDirection);
-
-    //     //Debug.Log("last valid vector"+lastValidBounceDirection+" DotP = "+lastBounceDotP);
-    //     // Debug.Log("currentBallNormalizedVelocity= "+currentBallNormalizedVelocity);
-    //     // Debug.Log("reflection vector "+reflectedBounceDirection+"DotP = "+bounceDotP);
-    //     // Debug.Log("Surface normal= "+collisionContactPointNormal);
-
-    //     if (Mathf.Abs(reflectedBounceDirection.x) < 0.1f)
-    //     {
-    //         Debug.Log("X "+reflectedBounceDirection.x);
-
-    //         reflectedBounceDirection.x = Mathf.Sign(reflectedBounceDirection.x) * 0.3f;
-    //         Debug.Log("X2 "+reflectedBounceDirection.x);
-    //     }
-    //     if (Mathf.Abs(reflectedBounceDirection.y) < 0.1f)
-    //     {
-    //         Debug.Log("Y "+reflectedBounceDirection.y);
-    //         reflectedBounceDirection.y = Mathf.Sign(reflectedBounceDirection.y) * 0.3f;
-    //     }
-    //     Vector3 newVector =reflectedBounceDirection.normalized*10;
-    //     ballRigidbody.linearVelocity = reflectedBounceDirection.normalized * desiredConstantSpeed;
-    //     lastValidBounceDirection = reflectedBounceDirection;
-    //     // if (bounceDotP <= -bounceDotPLimit || bounceDotP >= bounceDotPLimit )
-    //     // {
-    //     //     float rotationSign = 1;
-    //     //     if (lastBounceDotP > -bounceDotPLimit || lastBounceDotP < bounceDotPLimit )
-    //     //     {
-    //     //         if (Mathf.Abs(reflectedBounceDirection.x) <= minReflectionValueXY)
-    //     //         {
-    //     //             rotationSign = Mathf.Sign(reflectedBounceDirection.x);
-    //     //         }
-    //     //         else if (Mathf.Abs(reflectedBounceDirection.y) <= minReflectionValueXY)
-    //     //         {
-    //     //             rotationSign = Mathf.Sign(reflectedBounceDirection.y);
-    //     //         }
-    //     //     }
-    //     //     Quaternion rotationModification = Quaternion.AngleAxis(rotationModificationAngle * rotationSign, Vector3.forward);
-    //     //     lastValidBounceDirection = rotationModification * reflectedBounceDirection;
-    //     // }
-    //     // else
-    //     // {
-    //     //     lastValidBounceDirection = reflectedBounceDirection;
-    //     // }
-    //     // Debug.Log("Final reflection vector"+lastValidBounceDirection.normalized);
-    //     // ballRigidbody.linearVelocity = lastValidBounceDirection.normalized * desiredConstantSpeed;
-    // }
+    private void OnGameStateChanged(ARKGameMode.GameState newState, ARKGameMode.GameState oldState)
+    {
+        switch (newState)
+        {
+            case ARKGameMode.GameState.InitialBall:
+                bIntialImpulseDone = false;
+                currentMovementDirection = Vector3.zero;
+            break;
+        }
+    }
 
 }

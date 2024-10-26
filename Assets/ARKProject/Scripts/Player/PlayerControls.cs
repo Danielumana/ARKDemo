@@ -16,6 +16,21 @@ public class PlayerMovement : MonoBehaviour
     public float movementSpeedMultiplier = 10.0f;
     public float intialImpulseSpeedMultiplier = 5.0f;
 
+    void OnEnable() 
+    {
+        ARKGameMode gameModeReference = ARKGameMode.Instance;
+        if ( gameModeReference == null)
+        {
+            return;
+        }
+        ARKGameMode.GameStateChanged += OnGameStateChanged; 
+    }
+    
+    void OnDisable() 
+    {
+        ARKGameMode.GameStateChanged -= OnGameStateChanged;
+    }
+
     void Start()
     {
         TryPlayerInputSetup();
@@ -73,4 +88,15 @@ public class PlayerMovement : MonoBehaviour
         ballMovementClass.OnInitialImpulseAction(intialImpulseDirection);
         // initialImpulseActionDelegate(new Vector3(randomImpulseX, 1, 0).normalized * intialImpulseSpeedMultiplier);
     }
+
+    private void OnGameStateChanged(ARKGameMode.GameState newState, ARKGameMode.GameState oldState)
+    {
+        switch (newState)
+        {
+            case ARKGameMode.GameState.InitialBall:
+                bIntialImpulseActionDone = false;
+            break;
+        }
+    }
+
 }

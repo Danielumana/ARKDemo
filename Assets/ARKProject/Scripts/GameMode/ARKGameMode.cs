@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
-using NUnit.Framework;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
+
 
 public class ARKGameMode : MonoBehaviour
 {
@@ -13,17 +10,16 @@ public class ARKGameMode : MonoBehaviour
     {
         MainMenu,
         LevelTransition,
+        InitialBall,
         Playing,
         Paused,
         GameOver
     }
 
-    // Declara un delegado para el cambio de estado
-    public delegate void OnGameStateChanged(GameState newState);
+    public delegate void OnGameStateChanged(GameState newState, GameState oldState);
     public static event OnGameStateChanged GameStateChanged;
 
-    // Estado actual del juego
-    private GameState currentState;
+    private GameState currentGameState;
     public GameObject paddleReference;
     public GameObject ballPrefab;
     public GameObject ballsPoolReference;
@@ -67,13 +63,11 @@ public class ARKGameMode : MonoBehaviour
     public void RemoveLives(int livesToRemove)
     {
         playerLives -= livesToRemove;
-        if (livesToRemove <= 0)
+        print("Lives= "+playerLives);
+        print("Score= "+playerScore);
+        if (playerLives <= 0)
         {
             OnGameOver();
-        }
-        else
-        {
-            
         }
     }
 
@@ -122,10 +116,11 @@ public class ARKGameMode : MonoBehaviour
         if (activeBalls.Count <= 0)
         {
             RemoveLives(1);
-            ResetToInitialBall();
+            if (currentGameState != GameState.GameOver)
+            {
+                ResetToInitialBall();   
+            }
         }
-        
-        
     }
 
     public void DespawnAllActiveBalls()
@@ -153,6 +148,9 @@ public class ARKGameMode : MonoBehaviour
         {
             return;
         }
+        GameState oldState = currentGameState;
+        currentGameState = GameState.InitialBall;
+        GameStateChanged?.Invoke(currentGameState, oldState);
         SpawnBall(initialBallPositionTransform.position);
     }
 
@@ -231,7 +229,10 @@ public class ARKGameMode : MonoBehaviour
 
     private void OnGameOver()
     {
-        
+        GameState oldState = currentGameState;
+        currentGameState = GameState.GameOver;
+        GameStateChanged(currentGameState, oldState);
+        print("GameOver");
     }
 
 }
