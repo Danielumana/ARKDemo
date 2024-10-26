@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class ARKGameMode : MonoBehaviour
@@ -30,8 +31,8 @@ public class ARKGameMode : MonoBehaviour
     public GameObject deathVolume;
     public Vector3 ballsInPoolPosition = new Vector3(0,1000,0);
     private int levelBlocksCount;
-    public int playerLives = 3;
     private int playerScore = 0;
+    private int internalPlayerLives;
 
     public static ARKGameMode Instance { get; private set; }
 
@@ -50,7 +51,6 @@ public class ARKGameMode : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -60,12 +60,16 @@ public class ARKGameMode : MonoBehaviour
 
     void Start()
     {
-      ResetToInitialBall();
-      if (levelBlocksContainer == null)
-      {
-        return;
-      }
-      levelBlocksCount = levelBlocksContainer.transform.childCount; 
+        
+        internalPlayerLives = PlayerData.Instance.GetPlayerLives();
+        playerScore = PlayerData.Instance.GetPlayerScore();
+        ResetToInitialBall();
+        print("Started::: Score= "+playerScore+" Lives= "+internalPlayerLives);
+        if (levelBlocksContainer == null)
+        {
+            return;
+        }
+        levelBlocksCount = levelBlocksContainer.transform.childCount; 
     }
 
     
@@ -81,10 +85,10 @@ public class ARKGameMode : MonoBehaviour
 
     public void RemoveLives(int livesToRemove)
     {
-        playerLives -= livesToRemove;
-        print("Lives= "+playerLives);
+        internalPlayerLives -= livesToRemove;
+        print("Lives= "+internalPlayerLives);
         print("Score= "+playerScore);
-        if (playerLives <= 0)
+        if (internalPlayerLives <= 0)
         {
             OnGameOver(GameState.GameLost);
         }
@@ -261,6 +265,15 @@ public class ARKGameMode : MonoBehaviour
         return mainBallReference;
     }
 
+    public int GetInternalPlayerLives()
+    {
+        return internalPlayerLives;
+    }
+    public int GetInternalPlayerScore()
+    {
+        return playerScore;
+    }
+
     private void SetCurrentGameState(GameState newState)
     {
         GameState oldGameState = currentGameState;
@@ -289,6 +302,11 @@ public class ARKGameMode : MonoBehaviour
         {
             OnGameOver(GameState.GameWin);
         }
+    }
+
+    private void ResetGameMode()
+    {
+        ResetToInitialBall();
     }
 
 }
