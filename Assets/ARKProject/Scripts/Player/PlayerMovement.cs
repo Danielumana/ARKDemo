@@ -1,16 +1,27 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
+
+    public delegate void OnInitialImpulseAction(Vector3 initialImpulseDirection);
+    public static event OnInitialImpulseAction InitialImpulseAction;
 
     //Player Controller Components
     private PlayerInput playerInput;
     private InputAction moveAction;
 
     bool bIntialImpulseActionDone = false;
-    //Ball References(Change placeholder)
-    public GameObject ballReference;
 
+    Dictionary<string, bool> availableControlsState = new Dictionary<string, bool>{
+        
+        {"InitialImpulse", false},
+        {"Move",false}
+    
+    };
+
+    //Ball References
+    GameObject initialBallReference;
 
     //Movement Values
     public float movementSpeedMultiplier = 10.0f;
@@ -18,14 +29,9 @@ public class PlayerMovement : MonoBehaviour
 
     void OnEnable() 
     {
-        ARKGameMode gameModeReference = ARKGameMode.Instance;
-        if ( gameModeReference == null)
-        {
-            return;
-        }
         ARKGameMode.GameStateChanged += OnGameStateChanged; 
     }
-    
+
     void OnDisable() 
     {
         ARKGameMode.GameStateChanged -= OnGameStateChanged;
@@ -57,6 +63,12 @@ public class PlayerMovement : MonoBehaviour
         return true;
     }
 
+    // public void set enable
+    // public void SetEnableAllControls()
+    // {
+
+    // }
+
     void Move()
     {
         if (moveAction == null)
@@ -74,19 +86,27 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
         bIntialImpulseActionDone = true;
-        if (ballReference == null)
+        if (initialBallReference == null)
         {
-            return;
+            initialBallReference = ARKGameMode.Instance.GetMainBallReference();
+            if (initialBallReference == null)
+            {
+                return;
+            }
         }
-        BallMovement ballMovementClass = ballReference.GetComponent<BallMovement>();
+        BallMovement ballMovementClass = initialBallReference.GetComponent<BallMovement>();
         if (ballMovementClass == null)
         {
             return;
         }
         float randomImpulseX = Random.Range(0.4f,0.8f);
-        Vector3 intialImpulseDirection = new Vector3(randomImpulseX, 1, 0).normalized;
-        ballMovementClass.OnInitialImpulseAction(intialImpulseDirection);
-        // initialImpulseActionDelegate(new Vector3(randomImpulseX, 1, 0).normalized * intialImpulseSpeedMultiplier);
+        Vector3 intialImpulseDir = new Vector3(randomImpulseX, 1, 0).normalized;
+        InitialImpulseAction(intialImpulseDir);
+    }
+
+    public bool GetIntialImpulseDone()
+    {
+        return bIntialImpulseActionDone;
     }
 
     private void OnGameStateChanged(ARKGameMode.GameState newState, ARKGameMode.GameState oldState)

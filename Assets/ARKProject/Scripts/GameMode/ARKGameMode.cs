@@ -13,7 +13,8 @@ public class ARKGameMode : MonoBehaviour
         InitialBall,
         Playing,
         Paused,
-        GameOver
+        GameWin,
+        GameLost
     }
 
     public delegate void OnGameStateChanged(GameState newState, GameState oldState);
@@ -24,12 +25,22 @@ public class ARKGameMode : MonoBehaviour
     public GameObject ballPrefab;
     public GameObject ballsPoolReference;
     private List<GameObject> activeBalls = new List<GameObject> {};
+    private GameObject mainBallReference;
     public GameObject deathVolume;
     public Vector3 ballsInPoolPosition = new Vector3(0,1000,0);
     public int playerLives = 3;
     private int playerScore = 0;
 
     public static ARKGameMode Instance { get; private set; }
+
+    void OnEnable() 
+    {
+        PlayerMovement.InitialImpulseAction += OnInitialImpulseAction;
+    }
+    void OnDisable() 
+    {
+        PlayerMovement.InitialImpulseAction -= OnInitialImpulseAction;
+    }
     private void Awake()
     {
         if (Instance == null)
@@ -42,7 +53,6 @@ public class ARKGameMode : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
 
     void Start()
     {
@@ -67,7 +77,7 @@ public class ARKGameMode : MonoBehaviour
         print("Score= "+playerScore);
         if (playerLives <= 0)
         {
-            OnGameOver();
+            OnGameOver(GameState.GameLost);
         }
     }
 
@@ -116,7 +126,7 @@ public class ARKGameMode : MonoBehaviour
         if (activeBalls.Count <= 0)
         {
             RemoveLives(1);
-            if (currentGameState != GameState.GameOver)
+            if (currentGameState != GameState.GameWin && currentGameState != GameState.GameLost)
             {
                 ResetToInitialBall();   
             }
@@ -148,10 +158,12 @@ public class ARKGameMode : MonoBehaviour
         {
             return;
         }
-        GameState oldState = currentGameState;
-        currentGameState = GameState.InitialBall;
-        GameStateChanged?.Invoke(currentGameState, oldState);
-        SpawnBall(initialBallPositionTransform.position);
+        SetCurrentGameState(GameState.InitialBall);
+        GameObject spawnedBall = SpawnBall(initialBallPositionTransform.position);
+         if (activeBalls.Count == 1 )
+        {
+            mainBallReference = spawnedBall;
+        }
     }
 
     private GameObject GetBallFromPool(String poolName)
@@ -227,12 +239,35 @@ public class ARKGameMode : MonoBehaviour
         ballMovementClass.enabled = bEnable;
     }
 
-    private void OnGameOver()
+    private void OnGameOver(GameState gameOverState )
     {
-        GameState oldState = currentGameState;
-        currentGameState = GameState.GameOver;
-        GameStateChanged(currentGameState, oldState);
+        SetCurrentGameState(gameOverState);
         print("GameOver");
+    }
+
+    public GameObject GetMainBallReference()
+    {
+        return mainBallReference;
+    }
+
+    private void SetCurrentGameState(GameState newState)
+    {
+        GameState oldGameState = currentGameState;
+        currentGameState = newState;
+        GameStateChanged(currentGameState, oldGameState);
+    }
+    public GameState GetCurrentGameState()
+    {
+        return currentGameState;
+    }
+
+    private void OnInitialImpulseAction(Vector3 impulseDirection)
+    {
+        if (currentGameState != GameState.InitialBall)
+        {
+            return;
+        }
+        currentGameState = GameState.Playing;
     }
 
 }

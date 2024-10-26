@@ -43,7 +43,6 @@ public class BlockBehaviour : MonoBehaviour
         Destroy(blockReference);
         if (ARKGameMode.Instance == null)
         {
-            Debug.Log("Nulllll");
             return;
         }
         ARKGameMode.Instance.AddPointsToScore(onDestructionScore);

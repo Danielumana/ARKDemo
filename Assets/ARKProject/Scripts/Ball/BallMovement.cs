@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class BallMovement : MonoBehaviour
 {
+
     GameObject paddleReference;
     private Vector3 currentMovementDirection;
     public float desiredConstantSpeed = 10.0f;
@@ -10,15 +11,12 @@ public class BallMovement : MonoBehaviour
 
     void OnEnable() 
     {
-        ARKGameMode gameModeReference = ARKGameMode.Instance;
-        if ( gameModeReference == null)
-        {
-            return;
-        }
+        PlayerMovement.InitialImpulseAction += OnInitialImpulseAction;
         ARKGameMode.GameStateChanged += OnGameStateChanged; 
     }
     void OnDisable() 
     {
+        PlayerMovement.InitialImpulseAction -= OnInitialImpulseAction;
         ARKGameMode.GameStateChanged -= OnGameStateChanged;
     }
     void Start()
@@ -28,15 +26,32 @@ public class BallMovement : MonoBehaviour
 
     void Update()
     {
-        if (bIntialImpulseDone == false)
+        ARKGameMode gameModeReference = ARKGameMode.Instance;
+        if (gameModeReference == null)
         {
             return;
         }
-        transform.position += currentMovementDirection * desiredConstantSpeed * Time.deltaTime;
+        ARKGameMode.GameState currentState = gameModeReference.GetCurrentGameState();
+        if (bIntialImpulseDone == false && currentState == ARKGameMode.GameState.InitialBall)
+        {
+            transform.position = new Vector3(paddleReference.transform.position.x, transform.position.y,transform.position.z);
+        }
+        else if (currentState == ARKGameMode.GameState.Playing)
+        {
+            transform.position += currentMovementDirection * desiredConstantSpeed * Time.deltaTime;   
+        }
     }
 
-    public void OnInitialImpulseAction(Vector3 initialImpulseDirection)
+    private void OnInitialImpulseAction(Vector3 initialImpulseDirection)
     {
+        if (ARKGameMode.Instance != null)
+        {
+            if (ARKGameMode.Instance.GetMainBallReference() != this.gameObject)
+            {
+                ARKGameMode.GameStateChanged -= OnGameStateChanged;
+                return;
+            }
+        }
         if (bIntialImpulseDone == true)
         {
             return;
