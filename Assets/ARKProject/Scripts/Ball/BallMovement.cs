@@ -67,11 +67,11 @@ public class BallMovement : MonoBehaviour
 
         if (Mathf.Abs(reflectedBounceDirection.x) < 0.1f)
         {
-            reflectedBounceDirection.x = Mathf.Sign(reflectedBounceDirection.x) * 0.3f;
+            reflectedBounceDirection.x = Mathf.Sign(reflectedBounceDirection.x) * 1;
         }
         if (Mathf.Abs(reflectedBounceDirection.y) < 0.1f)
         {
-            reflectedBounceDirection.y = Mathf.Sign(reflectedBounceDirection.y) * 0.3f;
+            reflectedBounceDirection.y = Mathf.Sign(reflectedBounceDirection.y) * 1;
         }
         currentMovementDirection = reflectedBounceDirection.normalized;
     }
