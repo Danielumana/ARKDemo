@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -60,17 +61,43 @@ public class PlayerMovement : MonoBehaviour
         {
            return false; 
         }
+        SetAllControlsEnableValue(true);
         return true;
     }
 
-    // public void set enable
-    // public void SetEnableAllControls()
-    // {
+    public void SetControlEnableValue(String controlKey, bool newState)
+    {
+        if (availableControlsState.ContainsKey(controlKey) == false)
+        {
+            return;
+        }
+        availableControlsState[controlKey] = newState;
+    }
+    public void SetAllControlsEnableValue(bool newState)
+    {
+        Dictionary<string, bool> availableControlsStateAux = new Dictionary<string, bool>(availableControlsState);
+        foreach (string controlKey in availableControlsStateAux.Keys)
+        {
+            availableControlsState[controlKey] = newState;
+        }
+    }
 
-    // }
+    public bool GetControlEnableValue(string controlKey)
+    {
+        if (availableControlsState.ContainsKey(controlKey) == false)
+        {
+            return false;
+        }
+        return availableControlsState[controlKey];
+
+    }
 
     void Move()
     {
+        if (GetControlEnableValue("Move") == false)
+        {
+            return;
+        }
         if (moveAction == null)
         {
             return;
@@ -81,6 +108,10 @@ public class PlayerMovement : MonoBehaviour
 
     public void InitialImpulse(InputAction.CallbackContext callbackContext)
     {
+        if (GetControlEnableValue("InitialImpulse") == false)
+        {
+            return;
+        }
         if (bIntialImpulseActionDone == true)
         {
             return;
@@ -99,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
-        float randomImpulseX = Random.Range(0.4f,0.8f);
+        float randomImpulseX = UnityEngine.Random.Range(0.4f,0.8f);
         Vector3 intialImpulseDir = new Vector3(randomImpulseX, 1, 0).normalized;
         InitialImpulseAction(intialImpulseDir);
     }
@@ -115,7 +146,12 @@ public class PlayerMovement : MonoBehaviour
         {
             case ARKGameMode.GameState.InitialBall:
                 bIntialImpulseActionDone = false;
-            break;
+                SetControlEnableValue("InitialImpulse", true);
+                break;
+
+            case ARKGameMode.GameState.Playing:
+                SetControlEnableValue("InitialImpulse", false);
+                break;
         }
     }
 

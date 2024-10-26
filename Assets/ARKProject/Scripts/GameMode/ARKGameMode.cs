@@ -242,7 +242,7 @@ public class ARKGameMode : MonoBehaviour
     private void OnGameOver(GameState gameOverState )
     {
         SetCurrentGameState(gameOverState);
-        print("GameOver");
+        print("GameOver ="+currentGameState);
     }
 
     public GameObject GetMainBallReference()
@@ -267,7 +267,7 @@ public class ARKGameMode : MonoBehaviour
         {
             return;
         }
-        currentGameState = GameState.Playing;
+        SetCurrentGameState(GameState.Playing);
     }
 
 }
