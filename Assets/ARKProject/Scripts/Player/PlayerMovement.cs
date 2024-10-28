@@ -143,6 +143,11 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
+        if (callbackContext.phase != InputActionPhase.Started)
+        {
+            return;
+        }
+        print("asdasd 1");
         PauseAction();
     }
 

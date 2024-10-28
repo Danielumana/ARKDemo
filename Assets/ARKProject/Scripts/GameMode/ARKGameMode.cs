@@ -23,12 +23,11 @@ public class ARKGameMode : MonoBehaviour
     public static event OnGameStateChanged GameStateChanged;
 
     private GameState currentGameState;
+    private GameState lastGameStateBeforePause;
     public GameObject paddleReference;
-    public GameObject persistentObject;
     public GameObject levelBlocksContainer;
     public GameObject ballPrefab;
     public GameObject ballsPoolReference;
-    private GameObject currentMenuObject;
 
     private List<GameObject> activeBalls = new List<GameObject> {};
     private GameObject mainBallReference;
@@ -46,12 +45,14 @@ public class ARKGameMode : MonoBehaviour
         PlayerMovement.PauseAction += OnPauseAction;
         BlockBehaviour.OnBlockDestructionEvent += OnBlockDestruction;
     }
+
     void OnDisable() 
     {
         PlayerMovement.InitialImpulseAction -= OnInitialImpulseAction;
         PlayerMovement.PauseAction -= OnPauseAction;
         BlockBehaviour.OnBlockDestructionEvent -= OnBlockDestruction;
     }
+
     private void Awake()
     {
         if (Instance == null)
@@ -66,7 +67,6 @@ public class ARKGameMode : MonoBehaviour
 
     void Start()
     {
-        
         internalPlayerLives = PlayerData.Instance.GetPlayerLives();
         playerScore = PlayerData.Instance.GetPlayerScore();
         ResetToInitialBall();
@@ -316,43 +316,20 @@ public class ARKGameMode : MonoBehaviour
         {
             return;
         }
-        SetActiveMenuByName("PauseMenu");
-        Time.timeScale = currentMenuObject == null ? 1 : 0; 
+        if (currentGameState == GameState.Paused)
+        {
+            SetCurrentGameState(lastGameStateBeforePause);
+        }
+        else
+        {
+            lastGameStateBeforePause = currentGameState;
+            SetCurrentGameState(GameState.Paused);
+        }
+        Time.timeScale = currentGameState == GameState.Paused ? 0 : 1; 
     }
-
-    private void SetCurrentMenuEnable(bool bEnable)
+    
+    public void ForcePause()
     {
-        if (currentMenuObject == null)
-        {
-            return;
-        }
-        currentMenuObject.SetActive(bEnable);
-        if (bEnable == false)
-        {
-            currentMenuObject = null;
-        }
+        OnPauseAction();
     }
-
-    private void SetActiveMenuByName(String menuToActivate)
-    {
-        GameObject oldMenuObject = currentMenuObject;
-        SetCurrentMenuEnable(false);
-        if (oldMenuObject != null && oldMenuObject.name == menuToActivate)
-        {
-            return;
-        }
-        Transform menuObjectTransform = persistentObject.transform.Find(menuToActivate);
-        if (menuObjectTransform == null)
-        {
-            return;
-        }
-        GameObject menuObjectReference = menuObjectTransform.gameObject;
-        if (menuObjectReference == null)
-        {
-            return;
-        }
-        currentMenuObject = menuObjectReference;
-        SetCurrentMenuEnable(true);
-    }
-
 }

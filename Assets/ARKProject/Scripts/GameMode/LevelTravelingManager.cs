@@ -35,11 +35,13 @@ public class LevelTravelingManager : MonoBehaviour
     void Start()
     {
         levelsCount = SceneManager.sceneCountInBuildSettings;
+        currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
+        print(currentLevelIndex);
     }
 
     void Update()
     {
-        
+
     }
 
     public void LoadRequiredLevelWithDelay(int requiredLevelIndex)
@@ -54,19 +56,27 @@ public class LevelTravelingManager : MonoBehaviour
     private IEnumerator WaitAndLoadRequiredLevel(int requiredLevelIndex)
     {
         yield return new WaitForSeconds(waitingSecondsToTravel);
-
         SceneManager.LoadScene(requiredLevelIndex);
         currentLevelIndex = requiredLevelIndex;
     }
 
-    private void OnGameStateChanged(ARKGameMode.GameState newState, ARKGameMode.GameState oldState)
-    {
-        
-    }
-
-    private void LoadNextLevel()
+    public void LoadNextLevel()
     {
         int nextLevelIndex = currentLevelIndex + 1 > levelsCount - 1 ? 0 : currentLevelIndex + 1;
         LoadRequiredLevelWithDelay(nextLevelIndex);
+    }
+
+    public void ReloadCurrentLevel()
+    {
+        if (ARKGameMode.Instance == null)
+        {
+            return;
+        }
+        LoadRequiredLevelWithDelay(currentLevelIndex);
+    }
+
+     private void OnGameStateChanged(ARKGameMode.GameState newState, ARKGameMode.GameState oldState)
+    {
+        
     }
 }
