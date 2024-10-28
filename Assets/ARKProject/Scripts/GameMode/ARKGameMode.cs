@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,9 +24,12 @@ public class ARKGameMode : MonoBehaviour
 
     private GameState currentGameState;
     public GameObject paddleReference;
+    public GameObject persistentObject;
     public GameObject levelBlocksContainer;
     public GameObject ballPrefab;
     public GameObject ballsPoolReference;
+    private GameObject currentMenuObject;
+
     private List<GameObject> activeBalls = new List<GameObject> {};
     private GameObject mainBallReference;
     public GameObject deathVolume;
@@ -39,11 +43,13 @@ public class ARKGameMode : MonoBehaviour
     void OnEnable() 
     {
         PlayerMovement.InitialImpulseAction += OnInitialImpulseAction;
+        PlayerMovement.PauseAction += OnPauseAction;
         BlockBehaviour.OnBlockDestructionEvent += OnBlockDestruction;
     }
     void OnDisable() 
     {
         PlayerMovement.InitialImpulseAction -= OnInitialImpulseAction;
+        PlayerMovement.PauseAction -= OnPauseAction;
         BlockBehaviour.OnBlockDestructionEvent -= OnBlockDestruction;
     }
     private void Awake()
@@ -71,7 +77,6 @@ public class ARKGameMode : MonoBehaviour
         }
         levelBlocksCount = levelBlocksContainer.transform.childCount; 
     }
-
     
     void Update()
     {
@@ -122,6 +127,7 @@ public class ARKGameMode : MonoBehaviour
         
         return spawnedBall;
     }
+
     public void DespawnBall(GameObject ballToRemove)
     {
         if (ballToRemove == null)
@@ -136,10 +142,10 @@ public class ARKGameMode : MonoBehaviour
         activeBalls.RemoveAt(objectIndexToRemove);
         MoveBallToPool(ballToRemove, "Idle");
 
-        if (activeBalls.Count <= 0)
+        if (activeBalls.Count <= 0 && currentGameState != GameState.GameWin)
         {
             RemoveLives(1);
-            if (currentGameState != GameState.GameWin && currentGameState != GameState.GameLost)
+            if (currentGameState != GameState.GameLost)
             {
                 ResetToInitialBall();   
             }
@@ -304,9 +310,49 @@ public class ARKGameMode : MonoBehaviour
         }
     }
 
-    private void ResetGameMode()
+    private void OnPauseAction()
     {
-        ResetToInitialBall();
+        if (currentGameState == GameState.GameLost || currentGameState == GameState.GameWin)
+        {
+            return;
+        }
+        SetActiveMenuByName("PauseMenu");
+        Time.timeScale = currentMenuObject == null ? 1 : 0; 
+    }
+
+    private void SetCurrentMenuEnable(bool bEnable)
+    {
+        if (currentMenuObject == null)
+        {
+            return;
+        }
+        currentMenuObject.SetActive(bEnable);
+        if (bEnable == false)
+        {
+            currentMenuObject = null;
+        }
+    }
+
+    private void SetActiveMenuByName(String menuToActivate)
+    {
+        GameObject oldMenuObject = currentMenuObject;
+        SetCurrentMenuEnable(false);
+        if (oldMenuObject != null && oldMenuObject.name == menuToActivate)
+        {
+            return;
+        }
+        Transform menuObjectTransform = persistentObject.transform.Find(menuToActivate);
+        if (menuObjectTransform == null)
+        {
+            return;
+        }
+        GameObject menuObjectReference = menuObjectTransform.gameObject;
+        if (menuObjectReference == null)
+        {
+            return;
+        }
+        currentMenuObject = menuObjectReference;
+        SetCurrentMenuEnable(true);
     }
 
 }

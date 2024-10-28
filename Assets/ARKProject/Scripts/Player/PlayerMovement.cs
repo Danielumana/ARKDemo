@@ -8,16 +8,21 @@ public class PlayerMovement : MonoBehaviour
     public delegate void OnInitialImpulseAction(Vector3 initialImpulseDirection);
     public static event OnInitialImpulseAction InitialImpulseAction;
 
+    public delegate void OnPauseAction();
+    public static event OnPauseAction PauseAction;
+
     //Player Controller Components
     private PlayerInput playerInput;
     private InputAction moveAction;
+    private InputAction pauseAction;
 
     bool bIntialImpulseActionDone = false;
 
     Dictionary<string, bool> availableControlsState = new Dictionary<string, bool>{
         
         {"InitialImpulse", false},
-        {"Move",false}
+        {"Move", false},
+        {"Pause", false}
     
     };
 
@@ -49,20 +54,17 @@ public class PlayerMovement : MonoBehaviour
         Move();
     }
 
-    bool TryPlayerInputSetup()
+    void TryPlayerInputSetup()
     {
         playerInput = GetComponent<PlayerInput>();
         if (playerInput == null)
         {
-            return false;
+            return;
         }
         moveAction = playerInput.actions.FindAction("MoveAction");
-        if (moveAction == null)
-        {
-           return false; 
-        }
+        pauseAction = playerInput.actions.FindAction("PauseAction");
         SetAllControlsEnableValue(true);
-        return true;
+        return;
     }
 
     public void SetControlEnableValue(String controlKey, bool newState)
@@ -133,6 +135,15 @@ public class PlayerMovement : MonoBehaviour
         float randomImpulseX = UnityEngine.Random.Range(0.4f,0.8f);
         Vector3 intialImpulseDir = new Vector3(randomImpulseX, 1, 0).normalized;
         InitialImpulseAction(intialImpulseDir);
+    }
+
+    public void Pause(InputAction.CallbackContext callbackContext)
+    {
+        if (GetControlEnableValue("Pause") == false)
+        {
+            return;
+        }
+        PauseAction();
     }
 
     public bool GetIntialImpulseDone()
