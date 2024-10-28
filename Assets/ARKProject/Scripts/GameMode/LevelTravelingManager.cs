@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 public class LevelTravelingManager : MonoBehaviour
 {
     public float waitingSecondsToTravel;
+    private int levelsCount;
+    private int currentLevelIndex;
 
     public static LevelTravelingManager Instance { get; private set; }
     
@@ -32,7 +34,7 @@ public class LevelTravelingManager : MonoBehaviour
     
     void Start()
     {
-        
+        levelsCount = SceneManager.sceneCountInBuildSettings;
     }
 
     void Update()
@@ -40,22 +42,31 @@ public class LevelTravelingManager : MonoBehaviour
         
     }
 
-    public void LoadNextLevelWithDelay()
+    public void LoadRequiredLevelWithDelay(int requiredLevelIndex)
     {
-        StartCoroutine(WaitAndLoadNextScene());
+        if (currentLevelIndex < 0 || requiredLevelIndex < 0 || requiredLevelIndex > levelsCount - 1)
+        {
+            return;
+        }
+        StartCoroutine(WaitAndLoadRequiredLevel(requiredLevelIndex));
     }
 
-    private IEnumerator WaitAndLoadNextScene()
+    private IEnumerator WaitAndLoadRequiredLevel(int requiredLevelIndex)
     {
         yield return new WaitForSeconds(waitingSecondsToTravel);
-        SceneManager.LoadScene("Level_2");
+
+        SceneManager.LoadScene(requiredLevelIndex);
+        currentLevelIndex = requiredLevelIndex;
     }
 
     private void OnGameStateChanged(ARKGameMode.GameState newState, ARKGameMode.GameState oldState)
     {
-        if (newState == ARKGameMode.GameState.GameWin)
-        {
-            LoadNextLevelWithDelay();
-        }
+        
+    }
+
+    private void LoadNextLevel()
+    {
+        int nextLevelIndex = currentLevelIndex + 1 > levelsCount - 1 ? 0 : currentLevelIndex + 1;
+        LoadRequiredLevelWithDelay(nextLevelIndex);
     }
 }

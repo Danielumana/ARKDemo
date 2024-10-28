@@ -5,6 +5,7 @@ public class PlayerData : MonoBehaviour
     public int intialPlayerLives;
     private int playerLives;
     private int playerScore;
+    private int bestScore;
 
     public static PlayerData Instance { get; private set; }
     private void Awake()
