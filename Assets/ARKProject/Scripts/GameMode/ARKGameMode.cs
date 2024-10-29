@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class ARKGameMode : MonoBehaviour
@@ -10,8 +12,6 @@ public class ARKGameMode : MonoBehaviour
 
     public enum GameState
     {
-        MainMenu,
-        LevelTransition,
         InitialBall,
         Playing,
         Paused,
@@ -28,10 +28,12 @@ public class ARKGameMode : MonoBehaviour
     public GameObject levelBlocksContainer;
     public GameObject ballPrefab;
     public GameObject ballsPoolReference;
-
-    private List<GameObject> activeBalls = new List<GameObject> {};
     private GameObject mainBallReference;
     public GameObject deathVolume;
+    public TextMeshProUGUI livesText;
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI gameOverText;
+    private List<GameObject> activeBalls = new List<GameObject> {};
     public Vector3 ballsInPoolPosition = new Vector3(0,1000,0);
     private int levelBlocksCount;
     private int playerScore = 0;
@@ -68,7 +70,9 @@ public class ARKGameMode : MonoBehaviour
     void Start()
     {
         internalPlayerLives = PlayerData.Instance.GetPlayerLives();
+        livesText.SetText(internalPlayerLives.ToString());
         playerScore = PlayerData.Instance.GetPlayerScore();
+        scoreText.SetText(new String("Points: "+playerScore.ToString()));
         ResetToInitialBall();
         print("Started::: Score= "+playerScore+" Lives= "+internalPlayerLives);
         if (levelBlocksContainer == null)
@@ -91,6 +95,7 @@ public class ARKGameMode : MonoBehaviour
     public void RemoveLives(int livesToRemove)
     {
         internalPlayerLives -= livesToRemove;
+        livesText.SetText(internalPlayerLives.ToString());
         print("Lives= "+internalPlayerLives);
         print("Score= "+playerScore);
         if (internalPlayerLives <= 0)
@@ -304,6 +309,7 @@ public class ARKGameMode : MonoBehaviour
     {
         AddPointsToScore(destructionPoints);
         levelBlocksCount -= 1;
+        scoreText.SetText(new String("Points: "+playerScore.ToString()));
         if (levelBlocksCount <= 0)
         {
             OnGameOver(GameState.GameWin);

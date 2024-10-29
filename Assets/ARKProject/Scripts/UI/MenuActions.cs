@@ -1,6 +1,8 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuActions : MonoBehaviour
 {
@@ -9,11 +11,13 @@ public class MenuActions : MonoBehaviour
     void OnEnable() 
     {
         PlayerMovement.PauseAction += OnPauseAction;
+        ARKGameMode.GameStateChanged += OnGameStateChanged; 
     }
     
     void OnDisable() 
     {
-        PlayerMovement.PauseAction -= OnPauseAction;
+        PlayerMovement.PauseAction += OnPauseAction;
+        ARKGameMode.GameStateChanged += OnGameStateChanged;
     }
 
     void Start()
@@ -66,20 +70,46 @@ public class MenuActions : MonoBehaviour
         SetActiveMenuByName("MainMenu");
     }
 
+    public void NextLevel()
+    {
+        if (LevelTravelingManager.Instance == null)
+        {
+            return;
+        }
+        SetCurrentMenuEnable(false);
+        LevelTravelingManager.Instance.LoadNextLevel();
+
+        Transform nextLevelButtonTransform = gameObject.transform.Find("PauseMenu/Panel/NextLevelButton");
+        if (nextLevelButtonTransform == null)
+        {
+            return;
+        }
+        GameObject nextLevelButton = nextLevelButtonTransform.gameObject;
+        if (nextLevelButton == null)
+        {
+            return;
+        }
+        nextLevelButton.SetActive(false);
+
+        Transform gameOverTextTransform = gameObject.transform.Find("PauseMenu/Panel/GameOverText");
+        if (gameOverTextTransform == null)
+        {
+            return;
+        }
+        TextMeshProUGUI gameOverText = gameOverTextTransform.GetComponent<TextMeshProUGUI>();
+        if (gameOverText == null)
+        {
+            return;
+        }
+        gameOverText.enabled = false;
+    }
+
     private void OnPauseAction()
     {
-        print("asdasd");
         if (ARKGameMode.Instance == null)
         {
             return;
         }
-         print("asdasd");
-        ARKGameMode.GameState currentGameSate = ARKGameMode.Instance.GetCurrentGameState();
-        if (currentGameSate == ARKGameMode.GameState.GameLost ||currentGameSate ==  ARKGameMode.GameState.GameWin)
-        {
-            return;
-        }
-         print("asdasd");
         SetActiveMenuByName("PauseMenu");
     }
 
@@ -122,10 +152,41 @@ public class MenuActions : MonoBehaviour
         SetCurrentMenuEnable(true);
     }
 
-    private GameObject GetMainCamera()
+    private void OnGameStateChanged(ARKGameMode.GameState newState, ARKGameMode.GameState oldState)
     {
-        
-        return null;
+        if (newState == ARKGameMode.GameState.GameWin || newState == ARKGameMode.GameState.GameLost)
+        {
+            Transform gameOverTextTransform = gameObject.transform.Find("PauseMenu/Panel/GameOverText");
+            if (gameOverTextTransform == null)
+            {
+                return;
+            }
+            TextMeshProUGUI gameOverText = gameOverTextTransform.GetComponent<TextMeshProUGUI>();
+            if (gameOverText == null)
+            {
+                return;
+            }
+            
+            String newText = newState == ARKGameMode.GameState.GameWin ? "GAME WIN" : "GAME LOST";
+            gameOverText.SetText(newText);
+            gameOverText.enabled = true;
+            
+            OnPauseAction();
+            if (newState == ARKGameMode.GameState.GameWin)
+            {
+                Transform nextLevelButtonTransform = gameObject.transform.Find("PauseMenu/Panel/NextLevelButton");
+                if (nextLevelButtonTransform == null)
+                {
+                    return;
+                }
+                GameObject nextLevelButton = nextLevelButtonTransform.gameObject;
+                if (nextLevelButton == null)
+                {
+                    return;
+                }
+                nextLevelButton.SetActive(true);
+            }
+        }
     }
 
 }

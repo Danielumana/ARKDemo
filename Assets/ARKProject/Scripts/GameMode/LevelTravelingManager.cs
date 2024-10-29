@@ -36,7 +36,6 @@ public class LevelTravelingManager : MonoBehaviour
     {
         levelsCount = SceneManager.sceneCountInBuildSettings;
         currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
-        print(currentLevelIndex);
     }
 
     void Update()
