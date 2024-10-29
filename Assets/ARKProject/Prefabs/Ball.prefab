@@ -151,8 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitAudio: {fileID: 8300000, guid: 72a2fc2b3a4650d47b57c180562895f3, type: 3}
-  deathAudio: {fileID: 8300000, guid: 8757c87950d9e214ab02fe1798887eb5, type: 3}
-  desiredConstantSpeed: 8
+  desiredConstantSpeed: 13
 --- !u!82 &-8581006678310683674
 AudioSource:
   m_ObjectHideFlags: 0

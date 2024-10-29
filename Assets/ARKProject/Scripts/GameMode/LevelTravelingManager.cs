@@ -61,7 +61,7 @@ public class LevelTravelingManager : MonoBehaviour
 
     public void LoadNextLevel()
     {
-        int nextLevelIndex = currentLevelIndex + 1 > levelsCount - 1 ? 0 : currentLevelIndex + 1;
+        int nextLevelIndex = currentLevelIndex + 1 > levelsCount - 1 ? 1 : currentLevelIndex + 1;
         LoadRequiredLevelWithDelay(nextLevelIndex);
     }
 

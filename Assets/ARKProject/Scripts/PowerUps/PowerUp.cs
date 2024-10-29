@@ -15,7 +15,7 @@ public class PowerUp : MonoBehaviour
     void Start()
     {
         powerUpObject = this.gameObject;
-        powerUpObject.GetComponent<MeshRenderer>().material.color = Color.cyan;
+        powerUpObject.GetComponent<MeshRenderer>().material.color = Color.red;
     }
 
    

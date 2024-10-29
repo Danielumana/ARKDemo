@@ -54,6 +54,29 @@ public class MenuActions : MonoBehaviour
             ARKGameMode.Instance.ForcePause();
         }
         LevelTravelingManager.Instance.ReloadCurrentLevel();
+        Transform nextLevelButtonTransform = gameObject.transform.Find("PauseMenu/Panel/NextLevelButton");
+        if (nextLevelButtonTransform == null)
+        {
+            return;
+        }
+        GameObject nextLevelButton = nextLevelButtonTransform.gameObject;
+        if (nextLevelButton == null)
+        {
+            return;
+        }
+        nextLevelButton.SetActive(false);
+
+        Transform gameOverTextTransform = gameObject.transform.Find("PauseMenu/Panel/GameOverText");
+        if (gameOverTextTransform == null)
+        {
+            return;
+        }
+        TextMeshProUGUI gameOverText = gameOverTextTransform.GetComponent<TextMeshProUGUI>();
+        if (gameOverText == null)
+        {
+            return;
+        }
+        gameOverText.enabled = false;
     }
 
     public void MainMenu()

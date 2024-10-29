@@ -65,7 +65,7 @@ public class PowerUps : MonoBehaviour
     private bool CanDropPowerUp()
     {
         int randomValue = UnityEngine.Random.Range(0, 10);
-        if (randomValue >= 4)
+        if (randomValue >= 2)
         {
             return false;
         }
