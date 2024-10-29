@@ -147,7 +147,6 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
-        print("asdasd 1");
         PauseAction();
     }
 
