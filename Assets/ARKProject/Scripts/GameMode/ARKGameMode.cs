@@ -78,7 +78,7 @@ public class ARKGameMode : MonoBehaviour
         scoreText.SetText(new String("Points: "+playerScore.ToString()));
         ResetToInitialBall();
         audiosSourceRef = this.gameObject.GetComponent<AudioSource>();
-        print("Started::: Score= "+playerScore+" Lives= "+internalPlayerLives);
+
         if (levelBlocksContainer == null)
         {
             return;
@@ -276,7 +276,6 @@ public class ARKGameMode : MonoBehaviour
     {
         SetCurrentGameState(gameOverState);
         DespawnAllActiveBalls();
-        print("GameOver ="+currentGameState);
     }
     public GameObject GetMainBallReference()
     {

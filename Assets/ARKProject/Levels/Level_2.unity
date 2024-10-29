@@ -4301,6 +4301,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e4db965432a9b140af36871c4376a1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftMovementLimit: {fileID: 741578315}
+  rightMovementLimit: {fileID: 1407394783}
   movementSpeedMultiplier: 10
   intialImpulseSpeedMultiplier: 10
 --- !u!114 &1906265176

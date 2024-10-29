@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
@@ -15,6 +16,12 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInput playerInput;
     private InputAction moveAction;
     private InputAction pauseAction;
+
+    public GameObject leftMovementLimit;
+    public GameObject rightMovementLimit;
+
+    private float minMovementLimitValue;
+    private float maxLimitMovementValue;
 
     bool bIntialImpulseActionDone = false;
 
@@ -46,6 +53,8 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         TryPlayerInputSetup();
+        minMovementLimitValue = leftMovementLimit.transform.position.x + 1.5f;
+        maxLimitMovementValue = rightMovementLimit.transform.position.x - 1.5f;
     }
 
     
@@ -104,8 +113,14 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
+
         Vector2 direction = moveAction.ReadValue<Vector2>();
-        transform.position += new Vector3(direction.x, 0, direction.y) * Time.deltaTime * movementSpeedMultiplier;
+
+
+        Vector3 newPosition = transform.position + new Vector3(direction.x, 0, direction.y) * Time.deltaTime * movementSpeedMultiplier;
+        newPosition.x = math.clamp(newPosition.x, minMovementLimitValue,maxLimitMovementValue);
+        transform.position = newPosition;
+
     }
 
     public void InitialImpulse(InputAction.CallbackContext callbackContext)
