@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5858668401091953732}
   - component: {fileID: 5781236439630626765}
   - component: {fileID: 8830151080456835822}
+  - component: {fileID: 1920759115654435741}
   m_Layer: 0
   m_Name: PowerUpPrefab
   m_TagString: Untagged
@@ -111,6 +112,18 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1920759115654435741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1227965716065618410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 510a922db917c3846ab864507164ddcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1658941671297695699
 GameObject:
   m_ObjectHideFlags: 0

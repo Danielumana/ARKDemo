@@ -5,104 +5,77 @@ using UnityEngine;
 
 public class PowerUps : MonoBehaviour
 {
-    
-    List<GameObject> activeDroppedPowerUps = new List<GameObject>();
 
-    List<String> powerUpKeysList = new List<string>
+     public enum PowerUpType
     {
-        "MultipleBalls",
-        "ExtraLive",
-        "FasterBall"
-    };
+        ExtraLive
+    }
 
     public GameObject powerUpPrefabReference;
+    
 
     void OnEnable() 
     {
         BlockBehaviour.OnBlockDestructionEvent += OnBlockDestruction;
+        PowerUp.PowerUpDestroyed += OnPowerUpDestroyed;
     }
 
     void OnDisable() 
     {
         BlockBehaviour.OnBlockDestructionEvent -= OnBlockDestruction;
+        PowerUp.PowerUpDestroyed -= OnPowerUpDestroyed;
     }
-    
+
     void Start()
+    {
+
+    }
+
+    void Update()
     {
         
     }
 
-   
-    void Update()
-    {
-        if (activeDroppedPowerUps.Count < 0)
-        {
-            return;
-        }
-        List<GameObject> activeDroppedPowerUpsCopy = new List<GameObject>(activeDroppedPowerUps);
-        foreach (GameObject droppedPowerUpObject in activeDroppedPowerUpsCopy)
-        {
-            if (droppedPowerUpObject == null)
-            {
-                
-                activeDroppedPowerUps.Remove(droppedPowerUpObject);
-                continue;
-            }
-            droppedPowerUpObject.transform.position += -Vector3.up * 0.01f;
-            if (droppedPowerUpObject.transform.position.y <= -3)
-            {
-                DestroyPowerUp(droppedPowerUpObject);
-            }
-        }
-    }
-
     public void DropRandomPowerUp(Vector3 dropPosition)
     {
-        int selectedPowerUpIndex = UnityEngine.Random.Range(0, powerUpKeysList.Count - 1);
-
-        String powerUpKey = powerUpKeysList[selectedPowerUpIndex];
+        PowerUpType powerUpKey = GetRandomPowerUp();
 
         GameObject powerUpObject = Instantiate(powerUpPrefabReference);
+        PowerUp powerUpClass = powerUpObject.GetComponent<PowerUp>();
+        powerUpClass.SetPowerUpType(powerUpKey);
 
-        powerUpObject.transform.position = new Vector3(dropPosition.x, dropPosition.y, dropPosition.z - 1.0f);
+        powerUpObject.transform.position = new Vector3(dropPosition.x, dropPosition.y, dropPosition.z - 1.3f);
+    }
 
-        activeDroppedPowerUps.Add(powerUpObject);
+    public static PowerUpType GetRandomPowerUp()
+    {
 
-        switch (powerUpKey)
+        Array values = Enum.GetValues(typeof(PowerUpType));
+        PowerUpType randomPowerUp = (PowerUpType)values.GetValue(UnityEngine.Random.Range(0, values.Length));
+        
+        return randomPowerUp;
+    }
+
+    private bool CanDropPowerUp()
+    {
+        int randomValue = UnityEngine.Random.Range(0, 10);
+        if (randomValue >= 4)
         {
-            case "MultipleBalls":
-                break;
-            case "ExtraLive":
-                break;
-            case "FasterBall":
-                break;
+            return false;
         }
-
+        return true;
     }
-
-    private void ApplyPowerUp()
+    private void OnBlockDestruction(int blockPoints, Vector3 blockPosition)
     {
-
-    }
-
-    private void DestroyPowerUp(GameObject powerUpToDestroy)
-    {
-        if (!activeDroppedPowerUps.Contains(powerUpToDestroy))
+        if (!CanDropPowerUp())
         {
             return;
         }
-        activeDroppedPowerUps.Remove(powerUpToDestroy);
-        Destroy(powerUpToDestroy);
-    }
-
-    private void OnBlockDestruction(int blockPoints, Vector3 blockPosition)
-    {
         DropRandomPowerUp(blockPosition);
     }
-
-    public void MultipleBalls()
+    
+    private void OnPowerUpDestroyed(PowerUpType powerUpType)
     {
 
     }
-
-}
+};

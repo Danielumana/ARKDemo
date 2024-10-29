@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -89,6 +91,12 @@ public class ARKGameMode : MonoBehaviour
     public void AddPointsToScore(int pointsToAdd)
     {
         playerScore += pointsToAdd;
+    }
+
+    public void AddLives(int livesToAdd)
+    {
+        internalPlayerLives += math.abs(livesToAdd);
+        livesText.SetText(internalPlayerLives.ToString());
     }
 
     public void RemoveLives(int livesToRemove)
@@ -267,7 +275,6 @@ public class ARKGameMode : MonoBehaviour
         DespawnAllActiveBalls();
         print("GameOver ="+currentGameState);
     }
-
     public GameObject GetMainBallReference()
     {
         return mainBallReference;

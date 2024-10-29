@@ -2079,7 +2079,6 @@ MonoBehaviour:
   deathVolume: {fileID: 1225100011}
   livesText: {fileID: 299428198}
   scoreText: {fileID: 1848556450}
-  gameOverText: {fileID: 0}
   ballsInPoolPosition: {x: 0, y: 1000, z: 0}
 --- !u!1 &832575517
 GameObject:
@@ -3069,7 +3068,7 @@ GameObject:
   - component: {fileID: 1225100016}
   m_Layer: 0
   m_Name: DeathVolume
-  m_TagString: Untagged
+  m_TagString: DeathVolume
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3158,7 +3157,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 2.3600001, y: -18.539999, z: -22.099707}
-  m_LocalScale: {x: 14.32125, y: 3.4075, z: 2.8820312}
+  m_LocalScale: {x: 14.32125, y: 3.4075, z: 9.413291}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 772828797}
@@ -3479,8 +3478,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 4.51}
-  m_Center: {x: 0, y: 0, z: -1.66}
+  m_Size: {x: 1, y: 1, z: 7.58}
+  m_Center: {x: 0, y: 0, z: -3.2}
 --- !u!54 &1262496292
 Rigidbody:
   m_ObjectHideFlags: 0
