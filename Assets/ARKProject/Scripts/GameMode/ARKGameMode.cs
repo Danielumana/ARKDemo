@@ -32,7 +32,6 @@ public class ARKGameMode : MonoBehaviour
     public GameObject deathVolume;
     public TextMeshProUGUI livesText;
     public TextMeshProUGUI scoreText;
-    public TextMeshProUGUI gameOverText;
     private List<GameObject> activeBalls = new List<GameObject> {};
     public Vector3 ballsInPoolPosition = new Vector3(0,1000,0);
     private int levelBlocksCount;
@@ -303,7 +302,7 @@ public class ARKGameMode : MonoBehaviour
         SetCurrentGameState(GameState.Playing);
     }
 
-    private void OnBlockDestruction(int destructionPoints)
+    private void OnBlockDestruction(int destructionPoints, Vector3 blockPosition)
     {
         AddPointsToScore(destructionPoints);
         levelBlocksCount -= 1;

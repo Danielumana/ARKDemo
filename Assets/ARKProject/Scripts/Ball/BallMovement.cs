@@ -5,7 +5,7 @@ public class BallMovement : MonoBehaviour
 
     GameObject paddleReference;
     private Vector3 currentMovementDirection;
-    public float desiredConstantSpeed = 10.0f;
+    public float desiredConstantSpeed = 15.0f;
 
     private bool bIntialImpulseDone = false;
 

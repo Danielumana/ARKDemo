@@ -5,7 +5,7 @@ using UnityEngine;
 public class BlockBehaviour : MonoBehaviour
 {
 
-    public delegate void OnBlockDestruction(int onBlockDestructionPoins);
+    public delegate void OnBlockDestruction(int onBlockDestructionPoins, Vector3 blockPosition);
     public static event OnBlockDestruction OnBlockDestructionEvent;
 
     private GameObject blockReference;
@@ -63,12 +63,9 @@ public class BlockBehaviour : MonoBehaviour
             return;
         }
 
+        Vector3 blockPosition = blockReference.transform.position;
         Destroy(blockReference);
-        if (ARKGameMode.Instance == null)
-        {
-            return;
-        }
-        OnBlockDestructionEvent(onDestructionPoints);
+        OnBlockDestructionEvent(onDestructionPoints, blockPosition);
     }
 
 }
