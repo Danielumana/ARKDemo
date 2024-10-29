@@ -96,8 +96,6 @@ public class ARKGameMode : MonoBehaviour
     {
         internalPlayerLives -= livesToRemove;
         livesText.SetText(internalPlayerLives.ToString());
-        print("Lives= "+internalPlayerLives);
-        print("Score= "+playerScore);
         if (internalPlayerLives <= 0)
         {
             OnGameOver(GameState.GameLost);

@@ -263,7 +263,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: blockHits
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: onDestructionScore
@@ -333,7 +333,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: blockHits
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: onDestructionScore
@@ -723,7 +723,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: blockHits
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: onDestructionScore
@@ -863,7 +863,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: blockHits
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1143629884043136207, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1257,7 +1257,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: blockHits
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: onDestructionScore
@@ -1402,7 +1402,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: blockHits
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: onDestructionScore
@@ -1542,7 +1542,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: blockHits
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1143629884043136207, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1838,6 +1838,7 @@ MonoBehaviour:
   deathVolume: {fileID: 1225100011}
   livesText: {fileID: 1844706110}
   scoreText: {fileID: 1810520971}
+  gameOverText: {fileID: 0}
   ballsInPoolPosition: {x: 0, y: 1000, z: 0}
 --- !u!1001 &784560842
 PrefabInstance:
@@ -2038,7 +2039,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: blockHits
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: onDestructionScore
@@ -2178,7 +2179,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: blockHits
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: onDestructionScore
@@ -2246,6 +2247,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1996902170}
     m_Modifications:
+    - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
+      propertyPath: blockHits
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: GameModeReference
       value: 
@@ -2806,7 +2811,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: blockHits
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: onDestructionScore
@@ -2876,7 +2881,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: blockHits
-      value: 2
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: onDestructionScore
@@ -3016,7 +3021,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: blockHits
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: onDestructionScore
@@ -3156,7 +3161,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: blockHits
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1143629884043136207, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3222,7 +3227,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: blockHits
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: onDestructionScore
@@ -3470,7 +3475,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: blockHits
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: onDestructionScore
@@ -3571,7 +3576,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: blockHits
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: onDestructionScore
@@ -3641,7 +3646,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: blockHits
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: onDestructionScore
@@ -4055,7 +4060,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: blockHits
-      value: 2
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: onDestructionScore
@@ -4189,7 +4194,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: blockHits
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: onDestructionScore
@@ -4259,7 +4264,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: blockHits
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8519882974573149536, guid: ba0f9f442debf6b4494b3041a546f8b1, type: 3}
       propertyPath: onDestructionScore
