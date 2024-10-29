@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
-    public delegate void OnPowerUpDestroyed(PowerUps.PowerUpType powerUpType);
+    public delegate void OnPowerUpDestroyed(PowerUps.PowerUpType powerUpType, bool bApllied);
     public static event OnPowerUpDestroyed PowerUpDestroyed;
 
     private GameObject powerUpObject;
@@ -15,15 +15,16 @@ public class PowerUp : MonoBehaviour
     void Start()
     {
         powerUpObject = this.gameObject;
+        powerUpObject.GetComponent<MeshRenderer>().material.color = Color.cyan;
     }
 
    
     void Update()
     {
-        powerUpObject.transform.position += Vector3.down * Time.deltaTime * 10.0f;
+        powerUpObject.transform.position += Vector3.down * Time.deltaTime * 7.0f;
         if (powerUpObject.transform.position.y <= -3)
         {
-            DestroyPowerUp();
+            DestroyPowerUp(false);
         }
     }
 
@@ -40,13 +41,12 @@ public class PowerUp : MonoBehaviour
                 ExtraLive();
                 break;
         }
-
-        DestroyPowerUp();
+        DestroyPowerUp(true);
     }
 
-    private void DestroyPowerUp()
+    private void DestroyPowerUp(bool bApplied)
     {
-        PowerUpDestroyed(currentPowerUpType);
+        PowerUpDestroyed(currentPowerUpType, bApplied);
         Destroy(powerUpObject);
     }
 
@@ -55,7 +55,7 @@ public class PowerUp : MonoBehaviour
     {
         if (other.transform.tag == "DeathVolume")
         {
-            DestroyPowerUp();
+            DestroyPowerUp(false);
         }    
         else if(other.transform.tag == "Paddle")
         {

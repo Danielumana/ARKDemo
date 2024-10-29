@@ -3,9 +3,12 @@ using UnityEngine;
 public class DeathVolume : MonoBehaviour
 {
 
+    AudioSource audioSourceRef;
+    public AudioClip deathAudio;
+
     void Start()
     {
-        
+        audioSourceRef = this.gameObject.GetComponent<AudioSource>();
     }
 
     void Update()
@@ -24,6 +27,13 @@ public class DeathVolume : MonoBehaviour
         {
             return;
         }
+        if (audioSourceRef != null)
+        {
+            audioSourceRef.clip = deathAudio;
+            audioSourceRef.Play();
+        }
+        
+
         ARKGameMode gameModeReference = ARKGameMode.Instance;
         if (gameModeReference == null)
         {

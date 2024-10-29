@@ -32,6 +32,8 @@ public class ARKGameMode : MonoBehaviour
     public GameObject ballsPoolReference;
     private GameObject mainBallReference;
     public GameObject deathVolume;
+    private AudioSource audiosSourceRef;
+    public AudioClip blockDestructionAudio;
     public TextMeshProUGUI livesText;
     public TextMeshProUGUI scoreText;
     private List<GameObject> activeBalls = new List<GameObject> {};
@@ -75,6 +77,7 @@ public class ARKGameMode : MonoBehaviour
         playerScore = PlayerData.Instance.GetPlayerScore();
         scoreText.SetText(new String("Points: "+playerScore.ToString()));
         ResetToInitialBall();
+        audiosSourceRef = this.gameObject.GetComponent<AudioSource>();
         print("Started::: Score= "+playerScore+" Lives= "+internalPlayerLives);
         if (levelBlocksContainer == null)
         {
@@ -311,6 +314,11 @@ public class ARKGameMode : MonoBehaviour
 
     private void OnBlockDestruction(int destructionPoints, Vector3 blockPosition)
     {
+        if (audiosSourceRef != null)
+        {
+            audiosSourceRef.clip = blockDestructionAudio;
+            audiosSourceRef.Play();
+        }
         AddPointsToScore(destructionPoints);
         levelBlocksCount -= 1;
         scoreText.SetText(new String("Points: "+playerScore.ToString()));

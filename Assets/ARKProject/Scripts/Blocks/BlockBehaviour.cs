@@ -62,7 +62,6 @@ public class BlockBehaviour : MonoBehaviour
         {
             return;
         }
-
         Vector3 blockPosition = blockReference.transform.position;
         Destroy(blockReference);
         OnBlockDestructionEvent(onDestructionPoints, blockPosition);

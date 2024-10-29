@@ -4,6 +4,8 @@ public class BallMovement : MonoBehaviour
 {
 
     GameObject paddleReference;
+    AudioSource ballAudioSource;
+    public AudioClip hitAudio;
     private Vector3 currentMovementDirection;
     public float desiredConstantSpeed = 15.0f;
 
@@ -22,6 +24,8 @@ public class BallMovement : MonoBehaviour
     void Start()
     {
         paddleReference = GameObject.Find("Paddle");
+        ballAudioSource = this.gameObject.GetComponent<AudioSource>();
+
     }
 
     void Update()
@@ -74,6 +78,20 @@ public class BallMovement : MonoBehaviour
             reflectedBounceDirection.y = Mathf.Sign(reflectedBounceDirection.y) * 1;
         }
         currentMovementDirection = reflectedBounceDirection.normalized;
+        if (ballAudioSource == null)
+        {
+            return;
+        }
+        if (other.transform.tag != "DeathVolume")
+        {
+            ballAudioSource.clip = hitAudio;
+            ballAudioSource.Play(); 
+        }
+        else
+        {
+           
+        }
+
     }
 
     private void OnGameStateChanged(ARKGameMode.GameState newState, ARKGameMode.GameState oldState)

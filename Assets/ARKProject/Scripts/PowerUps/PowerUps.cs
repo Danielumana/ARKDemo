@@ -12,7 +12,9 @@ public class PowerUps : MonoBehaviour
     }
 
     public GameObject powerUpPrefabReference;
-    
+    AudioSource audioSourceRef;
+    public AudioClip droppedAudio;
+    public AudioClip appliedAudio;
 
     void OnEnable() 
     {
@@ -28,7 +30,7 @@ public class PowerUps : MonoBehaviour
 
     void Start()
     {
-
+        audioSourceRef = this.gameObject.GetComponent<AudioSource>();
     }
 
     void Update()
@@ -43,8 +45,12 @@ public class PowerUps : MonoBehaviour
         GameObject powerUpObject = Instantiate(powerUpPrefabReference);
         PowerUp powerUpClass = powerUpObject.GetComponent<PowerUp>();
         powerUpClass.SetPowerUpType(powerUpKey);
-
         powerUpObject.transform.position = new Vector3(dropPosition.x, dropPosition.y, dropPosition.z - 1.3f);
+        if (audioSourceRef != null)
+        {
+            audioSourceRef.clip = droppedAudio;
+            audioSourceRef.Play();
+        }
     }
 
     public static PowerUpType GetRandomPowerUp()
@@ -74,8 +80,15 @@ public class PowerUps : MonoBehaviour
         DropRandomPowerUp(blockPosition);
     }
     
-    private void OnPowerUpDestroyed(PowerUpType powerUpType)
+    private void OnPowerUpDestroyed(PowerUpType powerUpType, bool bApplied)
     {
-
+        if (audioSourceRef != null)
+        {
+            if (bApplied)
+            {
+                audioSourceRef.clip = appliedAudio;
+                audioSourceRef.Play();
+            }
+        }
     }
 };

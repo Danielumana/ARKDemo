@@ -59,8 +59,8 @@ public class PlayerData : MonoBehaviour
                 int inPlayerLives = ARKGameMode.Instance.GetInternalPlayerLives();
                 int inPlayerScore = ARKGameMode.Instance.GetInternalPlayerScore();
 
-                playerLives = inPlayerLives > playerLives ? inPlayerLives : playerLives - inPlayerLives;
-                playerScore = inPlayerScore > playerScore ? inPlayerScore : playerScore - inPlayerScore;
+                playerLives = inPlayerLives;
+                playerScore = inPlayerScore;
                 break;
             case ARKGameMode.GameState.GameLost:
                 playerLives = intialPlayerLives;
